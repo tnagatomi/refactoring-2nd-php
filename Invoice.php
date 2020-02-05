@@ -22,9 +22,9 @@ class Invoice
      */
     public function statement()
     {
-        $totalAmount = 0;
         $result = "Statement for {$this->invoice['customer']}\n";
 
+        $totalAmount = 0;
         foreach ($this->invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
