@@ -26,10 +26,7 @@ class Invoice
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
 
         foreach ($invoice['performances'] as $perf) {
-            $volumeCredits += max($perf['audience'] - 30, 0);
-            if ('comedy' === $this->playFor($perf)['type']) {
-                $volumeCredits += floor($perf['audience'] / 5);
-            }
+            $volumeCredits = $this->volumeCreditsFor($perf);
             $result .= "  {$this->playFor($perf)['name']}: {$formatter->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
@@ -39,7 +36,6 @@ class Invoice
     }
 
     /**
-     * @param $play
      * @param $aPerformance
      * @return float|int
      */
@@ -73,5 +69,19 @@ class Invoice
     protected function playFor($aPerformance)
     {
         return $this->plays[$aPerformance['playID']];
+    }
+
+    /**
+     * @param $perf
+     * @return false|float|mixed
+     */
+    protected function volumeCreditsFor($perf)
+    {
+        $result = 0;
+        $result += max($perf['audience'] - 30, 0);
+        if ('comedy' === $this->playFor($perf)['type']) {
+            $result += floor($perf['audience'] / 5);
+        }
+        return $result;
     }
 }
