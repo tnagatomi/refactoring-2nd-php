@@ -12,25 +12,7 @@ class Invoice
 
         foreach ($invoice['performances'] as $perf) {
             $play = $plays[$perf['playID']];
-            $thisAmount = 0;
-
-            switch ($play['type']) {
-                case 'tragedy':
-                    $thisAmount = 40000;
-                    if ($perf['audience'] > 30) {
-                        $thisAmount += 1000 * ($perf['audience'] - 30);
-                    }
-                    break;
-                case 'comedy':
-                    $thisAmount = 30000;
-                    if ($perf['audience'] > 20) {
-                        $thisAmount += 10000 + 500 * ($perf['audience'] - 20);
-                    }
-                    $thisAmount += 300 * $perf['audience'];
-                    break;
-                default:
-                    throw new Error("unknown type: {$play['type']}");
-            }
+            $thisAmount = $this->amountFor($play, $perf);
             $volumeCredits += max($perf['audience'] - 30, 0);
             if ('comedy' === $play['type']) {
                 $volumeCredits += floor($perf['audience'] / 5);
@@ -41,5 +23,33 @@ class Invoice
         $result .= "Amount owed is {$formatter->format($totalAmount/100)}\n";
         $result .= "You earned {$volumeCredits} credits\n";
         return $result;
+    }
+
+    /**
+     * @param $play
+     * @param $perf
+     * @return float|int
+     */
+    protected function amountFor($play, $perf)
+    {
+        $thisAmount = 0;
+        switch ($play['type']) {
+            case 'tragedy':
+                $thisAmount = 40000;
+                if ($perf['audience'] > 30) {
+                    $thisAmount += 1000 * ($perf['audience'] - 30);
+                }
+                break;
+            case 'comedy':
+                $thisAmount = 30000;
+                if ($perf['audience'] > 20) {
+                    $thisAmount += 10000 + 500 * ($perf['audience'] - 20);
+                }
+                $thisAmount += 300 * $perf['audience'];
+                break;
+            default:
+                throw new Error("unknown type: {$play['type']}");
+        }
+        return $thisAmount;
     }
 }
