@@ -29,10 +29,8 @@ class Invoice
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
-        $volumeCredits = $this->totalVolumeCredits();
-
         $result .= "Amount owed is {$this->usd()->format($totalAmount/100)}\n";
-        $result .= "You earned {$volumeCredits} credits\n";
+        $result .= "You earned {$this->totalVolumeCredits()} credits\n";
         return $result;
     }
 
