@@ -16,11 +16,10 @@ class Invoice
     {
         $result = "Statement for {$this->invoice['customer']}\n";
 
-        $totalAmount = $this->totalAmount();
         foreach ($this->invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
         }
-        $result .= "Amount owed is {$this->usd()->format($totalAmount/100)}\n";
+        $result .= "Amount owed is {$this->usd()->format($this->totalAmount()/100)}\n";
         $result .= "You earned {$this->totalVolumeCredits()} credits\n";
         return $result;
     }
