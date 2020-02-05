@@ -29,10 +29,7 @@ class Invoice
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
-        $volumeCredits = 0;
-        foreach ($this->invoice['performances'] as $perf) {
-            $volumeCredits += $this->volumeCreditsFor($perf);
-        }
+        $volumeCredits = $this->totalVolumeCredits();
 
         $result .= "Amount owed is {$this->usd()->format($totalAmount/100)}\n";
         $result .= "You earned {$volumeCredits} credits\n";
@@ -95,5 +92,17 @@ class Invoice
     protected function usd()
     {
         return new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+    }
+
+    /**
+     * @return false|float|int|mixed
+     */
+    protected function totalVolumeCredits()
+    {
+        $result = 0;
+        foreach ($this->invoice['performances'] as $perf) {
+            $result += $this->volumeCreditsFor($perf);
+        }
+        return $result;
     }
 }
