@@ -3,7 +3,22 @@
 
 class Invoice
 {
-    public function statement($invoice, $plays)
+    private $plays;
+
+    /**
+     * Invoice constructor.
+     * @param $plays
+     */
+    public function __construct($plays)
+    {
+        $this->plays = $plays;
+    }
+
+    /**
+     * @param $invoice
+     * @return string
+     */
+    public function statement($invoice)
     {
         $totalAmount = 0;
         $volumeCredits = 0;
@@ -11,7 +26,7 @@ class Invoice
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
 
         foreach ($invoice['performances'] as $perf) {
-            $play = $plays[$perf['playID']];
+            $play = $this->playFor($perf);
             $thisAmount = $this->amountFor($play, $perf);
             $volumeCredits += max($perf['audience'] - 30, 0);
             if ('comedy' === $play['type']) {
@@ -51,5 +66,14 @@ class Invoice
                 throw new Error("unknown type: {$play['type']}");
         }
         return $result;
+    }
+
+    /**
+     * @param $aPerformance
+     * @return mixed
+     */
+    protected function playFor($aPerformance)
+    {
+        return $this->plays[$aPerformance['playID']];
     }
 }
