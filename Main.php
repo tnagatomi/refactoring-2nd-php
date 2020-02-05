@@ -8,5 +8,5 @@ $invoices = json_decode($invoicesJson, true);
 $playsJson = file_get_contents('plays.json');
 $plays = json_decode($playsJson, true);
 
-$invoice = new Invoice($plays);
-echo $invoice->statement($invoices[0]);
+$invoice = new Invoice($invoices[0], $plays);
+echo $invoice->statement();

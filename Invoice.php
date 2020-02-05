@@ -3,32 +3,34 @@
 
 class Invoice
 {
+    private $invoice;
     private $plays;
 
     /**
      * Invoice constructor.
+     * @param $invoice
      * @param $plays
      */
-    public function __construct($plays)
+    public function __construct($invoice, $plays)
     {
+        $this->invoice = $invoice;
         $this->plays = $plays;
     }
 
     /**
-     * @param $invoice
      * @return string
      */
-    public function statement($invoice)
+    public function statement()
     {
         $totalAmount = 0;
-        $result = "Statement for {$invoice['customer']}\n";
+        $result = "Statement for {$this->invoice['customer']}\n";
 
-        foreach ($invoice['performances'] as $perf) {
+        foreach ($this->invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
         $volumeCredits = 0;
-        foreach ($invoice['performances'] as $perf) {
+        foreach ($this->invoice['performances'] as $perf) {
             $volumeCredits += $this->volumeCreditsFor($perf);
         }
 
