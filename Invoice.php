@@ -21,13 +21,13 @@ class Invoice
     public function statement($invoice)
     {
         $totalAmount = 0;
-        $volumeCredits = 0;
         $result = "Statement for {$invoice['customer']}\n";
 
         foreach ($invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
+        $volumeCredits = 0;
         foreach ($invoice['performances'] as $perf) {
             $volumeCredits += $this->volumeCreditsFor($perf);
         }
