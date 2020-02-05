@@ -25,10 +25,13 @@ class Invoice
         $result = "Statement for {$invoice['customer']}\n";
 
         foreach ($invoice['performances'] as $perf) {
-            $volumeCredits = $this->volumeCreditsFor($perf);
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
+        foreach ($invoice['performances'] as $perf) {
+            $volumeCredits += $this->volumeCreditsFor($perf);
+        }
+
         $result .= "Amount owed is {$this->usd()->format($totalAmount/100)}\n";
         $result .= "You earned {$volumeCredits} credits\n";
         return $result;
