@@ -26,13 +26,12 @@ class Invoice
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
 
         foreach ($invoice['performances'] as $perf) {
-            $thisAmount = $this->amountFor($perf);
             $volumeCredits += max($perf['audience'] - 30, 0);
             if ('comedy' === $this->playFor($perf)['type']) {
                 $volumeCredits += floor($perf['audience'] / 5);
             }
-            $result .= "  {$this->playFor($perf)['name']}: {$formatter->format($thisAmount/100)} ({$perf['audience']} seats)\n";
-            $totalAmount += $thisAmount;
+            $result .= "  {$this->playFor($perf)['name']}: {$formatter->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
+            $totalAmount += $this->amountFor($perf);
         }
         $result .= "Amount owed is {$formatter->format($totalAmount/100)}\n";
         $result .= "You earned {$volumeCredits} credits\n";
