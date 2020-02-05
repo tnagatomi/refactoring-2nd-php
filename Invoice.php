@@ -26,7 +26,7 @@ class Invoice
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
 
         foreach ($invoice['performances'] as $perf) {
-            $thisAmount = $this->amountFor($this->playFor($perf), $perf);
+            $thisAmount = $this->amountFor($perf);
             $volumeCredits += max($perf['audience'] - 30, 0);
             if ('comedy' === $this->playFor($perf)['type']) {
                 $volumeCredits += floor($perf['audience'] / 5);
@@ -44,10 +44,10 @@ class Invoice
      * @param $aPerformance
      * @return float|int
      */
-    protected function amountFor($play, $aPerformance)
+    protected function amountFor($aPerformance)
     {
         $result = 0;
-        switch ($play['type']) {
+        switch ($this->playFor($aPerformance)['type']) {
             case 'tragedy':
                 $result = 40000;
                 if ($aPerformance['audience'] > 30) {
@@ -62,7 +62,7 @@ class Invoice
                 $result += 300 * $aPerformance['audience'];
                 break;
             default:
-                throw new Error("unknown type: {$play['type']}");
+                throw new Error("unknown type: {$this->playFor($aPerformance)['type']}");
         }
         return $result;
     }
