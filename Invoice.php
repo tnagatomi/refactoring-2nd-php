@@ -24,10 +24,7 @@ class Invoice
     {
         $result = "Statement for {$this->invoice['customer']}\n";
 
-        $totalAmount = 0;
-        foreach ($this->invoice['performances'] as $perf) {
-            $totalAmount += $this->amountFor($perf);
-        }
+        $totalAmount = $this->totalAmount();
         foreach ($this->invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
         }
@@ -104,5 +101,17 @@ class Invoice
             $result += $this->volumeCreditsFor($perf);
         }
         return $result;
+    }
+
+    /**
+     * @return array
+     */
+    protected function totalAmount()
+    {
+        $totalAmount = 0;
+        foreach ($this->invoice['performances'] as $perf) {
+            $totalAmount += $this->amountFor($perf);
+        }
+        return $totalAmount;
     }
 }
