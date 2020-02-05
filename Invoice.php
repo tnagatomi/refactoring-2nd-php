@@ -6,20 +6,12 @@ class Invoice
     private $invoice;
     private $plays;
 
-    /**
-     * Invoice constructor.
-     * @param $invoice
-     * @param $plays
-     */
     public function __construct($invoice, $plays)
     {
         $this->invoice = $invoice;
         $this->plays = $plays;
     }
 
-    /**
-     * @return string
-     */
     public function statement()
     {
         $result = "Statement for {$this->invoice['customer']}\n";
@@ -33,10 +25,6 @@ class Invoice
         return $result;
     }
 
-    /**
-     * @param $aPerformance
-     * @return float|int
-     */
     protected function amountFor($aPerformance)
     {
         $result = 0;
@@ -60,19 +48,11 @@ class Invoice
         return $result;
     }
 
-    /**
-     * @param $aPerformance
-     * @return mixed
-     */
     protected function playFor($aPerformance)
     {
         return $this->plays[$aPerformance['playID']];
     }
 
-    /**
-     * @param $perf
-     * @return false|float|mixed
-     */
     protected function volumeCreditsFor($perf)
     {
         $result = 0;
@@ -83,17 +63,11 @@ class Invoice
         return $result;
     }
 
-    /**
-     * @return NumberFormatter
-     */
     protected function usd()
     {
         return new NumberFormatter('en_US', NumberFormatter::CURRENCY);
     }
 
-    /**
-     * @return false|float|int|mixed
-     */
     protected function totalVolumeCredits()
     {
         $result = 0;
@@ -103,9 +77,6 @@ class Invoice
         return $result;
     }
 
-    /**
-     * @return array
-     */
     protected function totalAmount()
     {
         $totalAmount = 0;
