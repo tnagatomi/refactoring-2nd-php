@@ -78,10 +78,10 @@ class Invoice
 
     protected function totalAmount()
     {
-        $totalAmount = 0;
+        $result = 0;
         foreach ($this->invoice['performances'] as $perf) {
-            $totalAmount += $this->amountFor($perf);
+            $result += $this->amountFor($perf);
         }
-        return $totalAmount;
+        return $result;
     }
 }
