@@ -26,10 +26,10 @@ class Invoice
 
         foreach ($invoice['performances'] as $perf) {
             $volumeCredits = $this->volumeCreditsFor($perf);
-            $result .= "  {$this->playFor($perf)['name']}: {$this->formatter()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
+            $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
             $totalAmount += $this->amountFor($perf);
         }
-        $result .= "Amount owed is {$this->formatter()->format($totalAmount/100)}\n";
+        $result .= "Amount owed is {$this->usd()->format($totalAmount/100)}\n";
         $result .= "You earned {$volumeCredits} credits\n";
         return $result;
     }
@@ -87,7 +87,7 @@ class Invoice
     /**
      * @return NumberFormatter
      */
-    protected function formatter()
+    protected function usd()
     {
         return new NumberFormatter('en_US', NumberFormatter::CURRENCY);
     }
