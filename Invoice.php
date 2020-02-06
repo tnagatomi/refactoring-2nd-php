@@ -12,7 +12,7 @@ class Invoice
         $this->invoice = $invoice;
         $this->plays = $plays;
         $this->statementData['customer'] = $this->invoice['customer'];
-        $this->statementData['performances'] = $this->invoice['performances'];
+        $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
     }
 
     public function statement()
@@ -90,6 +90,12 @@ class Invoice
         foreach ($this->statementData['performances'] as $perf) {
             $result += $this->amountFor($perf);
         }
+        return $result;
+    }
+
+    protected function enrichPerformance($aPerformance)
+    {
+        $result = $aPerformance;
         return $result;
     }
 }
