@@ -55,25 +55,7 @@ class Invoice
 
     protected function amountFor($aPerformance)
     {
-        $result = 0;
-        switch ($aPerformance['play']['type']) {
-            case 'tragedy':
-                $result = 40000;
-                if ($aPerformance['audience'] > 30) {
-                    $result += 1000 * ($aPerformance['audience'] - 30);
-                }
-                break;
-            case 'comedy':
-                $result = 30000;
-                if ($aPerformance['audience'] > 20) {
-                    $result += 10000 + 500 * ($aPerformance['audience'] - 20);
-                }
-                $result += 300 * $aPerformance['audience'];
-                break;
-            default:
-                throw new Error("unknown type: {$this->playFor($aPerformance)['type']}");
-        }
-        return $result;
+        return (new PerformanceCalculator($aPerformance, $this->playFor($aPerformance)))->amount();
     }
 
     protected function playFor($aPerformance)
