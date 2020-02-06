@@ -53,11 +53,6 @@ class Invoice
         return $result;
     }
 
-    protected function amountFor($aPerformance)
-    {
-        return (new PerformanceCalculator($aPerformance, $this->playFor($aPerformance)))->amount();
-    }
-
     protected function playFor($aPerformance)
     {
         return $this->plays[$aPerformance['playID']];
@@ -93,7 +88,7 @@ class Invoice
         $calculator = new PerformanceCalculator($aPerformance, $this->playFor($aPerformance));
         $result = $aPerformance;
         $result['play'] = $calculator->getPlay();
-        $result['amount'] = $this->amountFor($result);
+        $result['amount'] = $calculator->amount();
         $result['volumeCredits'] = $this->volumeCreditsFor($result);
         return $result;
     }
