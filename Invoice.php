@@ -96,6 +96,7 @@ class Invoice
     protected function enrichPerformance($aPerformance)
     {
         $result = $aPerformance;
+        $result['play'] = $this->playFor($result);
         return $result;
     }
 }
