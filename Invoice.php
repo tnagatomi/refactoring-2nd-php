@@ -79,7 +79,7 @@ class Invoice
     {
         $result = 0;
         foreach ($this->statementData['performances'] as $perf) {
-            $result += $this->volumeCreditsFor($perf);
+            $result += $perf['volumeCredits'];
         }
         return $result;
     }
@@ -98,6 +98,7 @@ class Invoice
         $result = $aPerformance;
         $result['play'] = $this->playFor($result);
         $result['amount'] = $this->amountFor($result);
+        $result['volumeCredits'] = $this->volumeCreditsFor($result);
         return $result;
     }
 }
