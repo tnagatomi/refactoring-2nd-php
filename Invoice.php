@@ -14,10 +14,11 @@ class Invoice
 
     public function statement()
     {
-        return $this->renderPlainText();
+        $statementData = [];
+        return $this->renderPlainText($statementData);
     }
 
-    protected function renderPlainText()
+    protected function renderPlainText($data)
     {
         $result = "Statement for {$this->invoice['customer']}\n";
 
