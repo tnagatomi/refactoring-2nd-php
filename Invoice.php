@@ -14,6 +14,11 @@ class Invoice
 
     public function statement()
     {
+        return $this->renderPlainText();
+    }
+
+    protected function renderPlainText()
+    {
         $result = "Statement for {$this->invoice['customer']}\n";
 
         foreach ($this->invoice['performances'] as $perf) {
