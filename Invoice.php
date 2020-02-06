@@ -80,11 +80,7 @@ class Invoice
 
     protected function totalVolumeCredits($data)
     {
-        $result = 0;
-        foreach ($this->statementData['performances'] as $perf) {
-            $result += $perf['volumeCredits'];
-        }
-        return $result;
+        return array_reduce(($this->statementData['performances']), fn($total, $p) => $total + $p['volumeCredits'], 0);
     }
 
     protected function totalAmount($data)
