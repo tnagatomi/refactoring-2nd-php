@@ -17,11 +17,7 @@ class PerformanceCalculator
         $result = 0;
         switch ($this->play['type']) {
             case 'tragedy':
-                $result = 40000;
-                if ($this->performance['audience'] > 30) {
-                    $result += 1000 * ($this->performance['audience'] - 30);
-                }
-                break;
+                throw new Error('想定外の呼び出し');
             case 'comedy':
                 $result = 30000;
                 if ($this->performance['audience'] > 20) {
