@@ -1,5 +1,6 @@
 <?php
 
+require_once "./PerformanceCalculator.php";
 
 class Invoice
 {
@@ -107,6 +108,7 @@ class Invoice
 
     protected function enrichPerformance($aPerformance)
     {
+        $calculator = new PerformanceCalculator($aPerformance);
         $result = $aPerformance;
         $result['play'] = $this->playFor($result);
         $result['amount'] = $this->amountFor($result);
