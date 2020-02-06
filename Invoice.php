@@ -58,16 +58,6 @@ class Invoice
         return $this->plays[$aPerformance['playID']];
     }
 
-    protected function volumeCreditsFor($perf)
-    {
-        $result = 0;
-        $result += max($perf['audience'] - 30, 0);
-        if ('comedy' === $perf['play']['type']) {
-            $result += floor($perf['audience'] / 5);
-        }
-        return $result;
-    }
-
     protected function usd($aNumber)
     {
         return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber / 100);
@@ -89,7 +79,7 @@ class Invoice
         $result = $aPerformance;
         $result['play'] = $calculator->getPlay();
         $result['amount'] = $calculator->amount();
-        $result['volumeCredits'] = $this->volumeCreditsFor($result);
+        $result['volumeCredits'] = $calculator->volumeCredits();
         return $result;
     }
 
