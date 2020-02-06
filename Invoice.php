@@ -1,6 +1,8 @@
 <?php
 
 require_once "./PerformanceCalculator.php";
+require_once "./TragedyCalculator.php";
+require_once "./ComedyCalculator.php";
 
 class Invoice
 {
@@ -93,6 +95,14 @@ class Invoice
 
     protected function createPerformanceCalculator($aPerformance, $aPlay)
     {
+        switch ($aPlay['type']) {
+            case 'tragedy':
+                return new TragedyCalculator($aPerformance, $aPlay);
+            case 'comedy':
+                return new ComedyCalculator($aPerformance, $aPlay);
+            default:
+                throw new Error("未知の演劇の種類：{$aPlay['type']}");
+        }
         return new PerformanceCalculator($aPerformance, $aPlay);
     }
 }
