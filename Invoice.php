@@ -15,12 +15,13 @@ class Invoice
     public function statement()
     {
         $statementData = [];
+        $statementData['customer'] = $this->invoice['customer'];
         return $this->renderPlainText($statementData);
     }
 
     protected function renderPlainText($data)
     {
-        $result = "Statement for {$this->invoice['customer']}\n";
+        $result = "Statement for {$data['customer']}\n";
 
         foreach ($this->invoice['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
