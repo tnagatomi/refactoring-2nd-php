@@ -75,7 +75,7 @@ class Invoice
 
     protected function enrichPerformance($aPerformance)
     {
-        $calculator = new PerformanceCalculator($aPerformance, $this->playFor($aPerformance));
+        $calculator = $this->createPerformanceCalculator($aPerformance, $this->playFor($aPerformance));
         $result = $aPerformance;
         $result['play'] = $calculator->getPlay();
         $result['amount'] = $calculator->amount();
@@ -89,5 +89,10 @@ class Invoice
         $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
         $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
         $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
+    }
+
+    protected function createPerformanceCalculator($aPerformance, $aPlay)
+    {
+        return new PerformanceCalculator($aPerformance, $aPlay);
     }
 }
