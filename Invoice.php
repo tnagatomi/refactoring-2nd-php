@@ -5,25 +5,26 @@ class Invoice
 {
     private $invoice;
     private $plays;
+    private array $statementData;
 
     public function __construct($invoice, $plays)
     {
         $this->invoice = $invoice;
         $this->plays = $plays;
+        $this->statementData['customer'] = $this->invoice['customer'];
+        $this->statementData['performances'] = $this->invoice['performances'];
     }
 
     public function statement()
     {
-        $statementData = [];
-        $statementData['customer'] = $this->invoice['customer'];
-        return $this->renderPlainText($statementData);
+        return $this->renderPlainText();
     }
 
-    protected function renderPlainText($data)
+    protected function renderPlainText()
     {
-        $result = "Statement for {$data['customer']}\n";
+        $result = "Statement for {$this->statementData['customer']}\n";
 
-        foreach ($this->invoice['performances'] as $perf) {
+        foreach ($this->statementData['performances'] as $perf) {
             $result .= "  {$this->playFor($perf)['name']}: {$this->usd($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
         }
         $result .= "Amount owed is {$this->usd($this->totalAmount()/100)}\n";
