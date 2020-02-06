@@ -19,6 +19,12 @@ class Invoice
         return $this->renderPlainText();
     }
 
+    public function htmlStatement()
+    {
+        $this->createStatementData();
+        return $this->renderHtml();
+    }
+
     protected function renderPlainText()
     {
         $result = "Statement for {$this->statementData['customer']}\n";
@@ -28,6 +34,21 @@ class Invoice
         }
         $result .= "Amount owed is {$this->usd($this->statementData['totalAmount'])}\n";
         $result .= "You earned {$this->statementData['totalVolumeCredits']} credits\n";
+        return $result;
+    }
+
+    protected function renderHtml()
+    {
+        $result = "<h1>Statement for {$this->statementData['customer']}</h1>\n";
+        $result .= "<table>\n";
+        $result .= "  <tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
+        foreach ($this->statementData['performances'] as $perf) {
+            $result .= "  <tr><td>{$perf['play']['name']}</td><td>{$perf['audience']}</td>";
+            $result .= "<td>{$this->usd($perf['amount'])}</td></tr>\n";
+        }
+        $result .= "</table>\n";
+        $result .= "<p>Amount owed is <em>{$this->usd($this->statementData['totalAmount'])}</em></p>\n";
+        $result .= "<p>You earned <em>{$this->statementData['totalVolumeCredits']}</em> credits</p>\n";
         return $result;
     }
 
