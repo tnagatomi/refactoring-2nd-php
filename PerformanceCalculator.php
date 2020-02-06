@@ -3,8 +3,8 @@
 
 class PerformanceCalculator
 {
-    private $performance;
-    private $play;
+    protected $performance;
+    protected $play;
 
     public function __construct($aPerformance, $aPlay)
     {
