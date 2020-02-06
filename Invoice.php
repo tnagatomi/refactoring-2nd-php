@@ -15,11 +15,7 @@ class Invoice
 
     public function statement()
     {
-        $this->statementData['customer'] = $this->invoice['customer'];
-        $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
-        $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
-        $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
-
+        $this->createStatementData();
         return $this->renderPlainText();
     }
 
@@ -95,5 +91,13 @@ class Invoice
         $result['amount'] = $this->amountFor($result);
         $result['volumeCredits'] = $this->volumeCreditsFor($result);
         return $result;
+    }
+
+    protected function createStatementData(): void
+    {
+        $this->statementData['customer'] = $this->invoice['customer'];
+        $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
+        $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
+        $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
     }
 }
