@@ -25,7 +25,7 @@ class Invoice
         $result = "Statement for {$this->statementData['customer']}\n";
 
         foreach ($this->statementData['performances'] as $perf) {
-            $result .= "  {$perf['play']['name']}: {$this->usd($perf['amount']/100)} ({$perf['audience']} seats)\n";
+            $result .= "  {$perf['play']['name']}: {$this->usd($perf['amount'])} ({$perf['audience']} seats)\n";
         }
         $result .= "Amount owed is {$this->usd($this->totalAmount()/100)}\n";
         $result .= "You earned {$this->totalVolumeCredits()} credits\n";
@@ -72,7 +72,7 @@ class Invoice
 
     protected function usd($aNumber)
     {
-        return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber);
+        return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber/100);
     }
 
     protected function totalVolumeCredits()
