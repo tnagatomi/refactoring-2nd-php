@@ -103,6 +103,5 @@ class Invoice
             default:
                 throw new Error("未知の演劇の種類：{$aPlay['type']}");
         }
-        return new PerformanceCalculator($aPerformance, $aPlay);
     }
 }
