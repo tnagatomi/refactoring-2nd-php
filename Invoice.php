@@ -97,6 +97,7 @@ class Invoice
     {
         $result = $aPerformance;
         $result['play'] = $this->playFor($result);
+        $result['amount'] = $this->amountFor($result);
         return $result;
     }
 }
