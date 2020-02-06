@@ -108,9 +108,9 @@ class Invoice
 
     protected function enrichPerformance($aPerformance)
     {
-        $calculator = new PerformanceCalculator($aPerformance);
+        $calculator = new PerformanceCalculator($aPerformance, $this->playFor($aPerformance));
         $result = $aPerformance;
-        $result['play'] = $this->playFor($result);
+        $result['play'] = $calculator->getPlay();
         $result['amount'] = $this->amountFor($result);
         $result['volumeCredits'] = $this->volumeCreditsFor($result);
         return $result;
