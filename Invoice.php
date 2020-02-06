@@ -17,9 +17,9 @@ class Invoice
         $result = "Statement for {$this->invoice['customer']}\n";
 
         foreach ($this->invoice['performances'] as $perf) {
-            $result .= "  {$this->playFor($perf)['name']}: {$this->usd()->format($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
+            $result .= "  {$this->playFor($perf)['name']}: {$this->usd($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
         }
-        $result .= "Amount owed is {$this->usd()->format($this->totalAmount()/100)}\n";
+        $result .= "Amount owed is {$this->usd($this->totalAmount()/100)}\n";
         $result .= "You earned {$this->totalVolumeCredits()} credits\n";
         return $result;
     }
@@ -62,9 +62,9 @@ class Invoice
         return $result;
     }
 
-    protected function usd()
+    protected function usd($aNumber)
     {
-        return new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+        return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber);
     }
 
     protected function totalVolumeCredits()
