@@ -25,7 +25,7 @@ class Invoice
         $result = "Statement for {$this->statementData['customer']}\n";
 
         foreach ($this->statementData['performances'] as $perf) {
-            $result .= "  {$this->playFor($perf)['name']}: {$this->usd($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
+            $result .= "  {$perf['play']['name']}: {$this->usd($this->amountFor($perf)/100)} ({$perf['audience']} seats)\n";
         }
         $result .= "Amount owed is {$this->usd($this->totalAmount()/100)}\n";
         $result .= "You earned {$this->totalVolumeCredits()} credits\n";
@@ -35,7 +35,7 @@ class Invoice
     protected function amountFor($aPerformance)
     {
         $result = 0;
-        switch ($this->playFor($aPerformance)['type']) {
+        switch ($aPerformance['play']['type']) {
             case 'tragedy':
                 $result = 40000;
                 if ($aPerformance['audience'] > 30) {
@@ -64,7 +64,7 @@ class Invoice
     {
         $result = 0;
         $result += max($perf['audience'] - 30, 0);
-        if ('comedy' === $this->playFor($perf)['type']) {
+        if ('comedy' === $perf['play']['type']) {
             $result += floor($perf['audience'] / 5);
         }
         return $result;
