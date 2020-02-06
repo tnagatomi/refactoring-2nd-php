@@ -13,6 +13,8 @@ class Invoice
         $this->plays = $plays;
         $this->statementData['customer'] = $this->invoice['customer'];
         $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
+        $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
+        $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
     }
 
     public function statement()
@@ -27,8 +29,8 @@ class Invoice
         foreach ($this->statementData['performances'] as $perf) {
             $result .= "  {$perf['play']['name']}: {$this->usd($perf['amount'])} ({$perf['audience']} seats)\n";
         }
-        $result .= "Amount owed is {$this->usd($this->totalAmount()/100)}\n";
-        $result .= "You earned {$this->totalVolumeCredits()} credits\n";
+        $result .= "Amount owed is {$this->usd($this->statementData['totalAmount'])}\n";
+        $result .= "You earned {$this->statementData['totalVolumeCredits']} credits\n";
         return $result;
     }
 
@@ -75,7 +77,7 @@ class Invoice
         return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber/100);
     }
 
-    protected function totalVolumeCredits()
+    protected function totalVolumeCredits($data)
     {
         $result = 0;
         foreach ($this->statementData['performances'] as $perf) {
@@ -84,7 +86,7 @@ class Invoice
         return $result;
     }
 
-    protected function totalAmount()
+    protected function totalAmount($data)
     {
         $result = 0;
         foreach ($this->statementData['performances'] as $perf) {
