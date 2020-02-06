@@ -78,7 +78,7 @@ class Invoice
     protected function totalVolumeCredits()
     {
         $result = 0;
-        foreach ($this->invoice['performances'] as $perf) {
+        foreach ($this->statementData['performances'] as $perf) {
             $result += $this->volumeCreditsFor($perf);
         }
         return $result;
@@ -87,7 +87,7 @@ class Invoice
     protected function totalAmount()
     {
         $result = 0;
-        foreach ($this->invoice['performances'] as $perf) {
+        foreach ($this->statementData['performances'] as $perf) {
             $result += $this->amountFor($perf);
         }
         return $result;
