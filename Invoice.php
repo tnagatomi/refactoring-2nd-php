@@ -75,7 +75,7 @@ class Invoice
 
     protected function usd($aNumber)
     {
-        return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber/100);
+        return (new NumberFormatter('en_US', NumberFormatter::CURRENCY))->format($aNumber / 100);
     }
 
     protected function totalVolumeCredits($data)
@@ -89,11 +89,7 @@ class Invoice
 
     protected function totalAmount($data)
     {
-        $result = 0;
-        foreach ($this->statementData['performances'] as $perf) {
-            $result += $perf['amount'];
-        }
-        return $result;
+        return array_reduce(($this->statementData['performances']), fn($total, $p) => $total + $p['amount'], 0);
     }
 
     protected function enrichPerformance($aPerformance)
