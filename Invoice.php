@@ -11,14 +11,15 @@ class Invoice
     {
         $this->invoice = $invoice;
         $this->plays = $plays;
-        $this->statementData['customer'] = $this->invoice['customer'];
-        $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
-        $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
-        $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
     }
 
     public function statement()
     {
+        $this->statementData['customer'] = $this->invoice['customer'];
+        $this->statementData['performances'] = array_map('Invoice::enrichPerformance', $this->invoice['performances']);
+        $this->statementData['totalAmount'] = $this->totalAmount($this->statementData);
+        $this->statementData['totalVolumeCredits'] = $this->totalVolumeCredits($this->statementData);
+
         return $this->renderPlainText();
     }
 
